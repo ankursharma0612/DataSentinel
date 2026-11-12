@@ -36,3 +36,45 @@ Compliance report generators for GDPR, HIPAA, and PCI-DSS
 Scan scheduler with trend tracking and webhook alerting
 Docker Compose integration test suite with planted sensitive data
 PDF report output with executive summary and remediation guidance
+
+## What It Does
+
+- Scans files (PDF, DOCX, XLSX, CSV, JSON, XML, YAML, Parquet, Avro, archives, emails) for PII, credentials, financial data, and PHI
+- Scans databases (PostgreSQL, MySQL, MongoDB, SQLite) with schema introspection and sampling
+- Scans network captures (PCAP/PCAPNG) with protocol parsing, TCP reassembly, and DNS exfiltration detection
+- Confidence scoring pipeline: regex match, checksum validation (Luhn, Mod-97, Mod-11), context keyword proximity, entity co-occurrence
+- Maps findings to compliance frameworks (HIPAA, PCI-DSS, GDPR, CCPA, SOX, GLBA, FERPA)
+- Reports in console (Rich tables), JSON, SARIF 2.1.0, or CSV
+
+## Quick Start
+
+```bash
+bash install.sh
+dlp-scan file ./data
+```
+
+> [!TIP]
+> This project uses [`just`](https://github.com/casey/just) as a command runner. Type `just` to see all available commands.
+>
+> Install: `curl -sSf https://just.systems/install.sh | bash -s -- --to ~/.local/bin`
+
+## Usage
+
+```bash
+dlp-scan file ./data/employees/              # scan a directory
+dlp-scan file ./report.pdf -f json           # scan a file, JSON output
+dlp-scan db postgres://user:pass@host/db     # scan PostgreSQL
+dlp-scan db sqlite:///path/to/local.db       # scan SQLite
+dlp-scan network capture.pcap               # scan network traffic
+dlp-scan file ./data -f sarif -o results.sarif  # SARIF for CI/CD
+dlp-scan report convert results.json -f csv  # convert report format
+dlp-scan report summary results.json         # print summary stats
+```
+
+### Global Options
+
+```
+--config, -c    Path to YAML config file
+--verbose, -v   Enable debug logging
+--version       Show versio
+```
